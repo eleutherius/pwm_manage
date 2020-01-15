@@ -19,3 +19,11 @@ static ip_address=192.168.99.20
 static routers=192.168.99.1
 static domain_name_servers=8.8.8.8
 ```
+# Install 
+
+```shell script
+python3 -m venv venv
+source  venv/bin/activate 
+pip install -r requirements.txt
+python app.py
+```

@@ -3,7 +3,7 @@
 import asyncio
 import websockets
 import json
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 
 import logging
@@ -33,78 +33,78 @@ channel2 = 36
 channel3 = 37
 channel4 = 38
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
-logger.info('Starting servo service!')
-
-GPIO.setup(channel1, GPIO.OUT)
-GPIO.setup(channel2, GPIO.OUT)
-GPIO.setup(channel3, GPIO.OUT)
-GPIO.setup(channel4, GPIO.OUT)
-
-
-pwm_channel1 = GPIO.PWM(channel1, 1000)
-pwm_channel2 = GPIO.PWM(channel2, 1000)
-pwm_channel3 = GPIO.PWM(channel3, 1000)
-pwm_channel4 = GPIO.PWM(channel4, 1000)
-
-pwm_channel1.stop()
-pwm_channel2.stop()
-pwm_channel3.stop()
-pwm_channel4.stop()
-
-
-def pwm_controller(manage_list):
-
-    left, right = manage_list
-    left = int(left * 100)
-    right = int(right * 100)
-    logger.info(f'left : {left}')
-    logger.info(f'right : {right}')
-
-    if left >= 0 and right >= 0:
-        pwm_channel1.start(abs(left))
-        pwm_channel2.stop()
-        pwm_channel3.start(abs(right))
-        pwm_channel4.stop()
-
-        # time.sleep(1)
-        # pwm.ChangeDutyCycle(80)
-        # pwm.stop()  # Останавливаем ШИМ
-
-    elif left < 0 and right < 0:
-
-        pwm_channel1.stop()
-        pwm_channel2.start(abs(left))
-        pwm_channel3.stop()
-        pwm_channel4.start(abs(right))
-
-    elif left >= 0 and right < 0:
-
-        pwm_channel1.start(abs(left))
-        pwm_channel2.stop()
-        pwm_channel3.stop()
-        pwm_channel4.start(abs(right))
-
-    elif left < 0 and right >= 0:
-
-        pwm_channel1.stop()
-        pwm_channel2.start(abs(left))
-        pwm_channel3.start(abs(right))
-        pwm_channel4.stop()
-
-    elif left == 0 and right == 0:
-
-        pwm_channel1.stop()
-        pwm_channel2.stop()
-        pwm_channel3.stop()
-        pwm_channel4.stop()
+# GPIO.setmode(GPIO.BOARD)
+# GPIO.setwarnings(False)
+# logger.info('Starting servo service!')
+#
+# GPIO.setup(channel1, GPIO.OUT)
+# GPIO.setup(channel2, GPIO.OUT)
+# GPIO.setup(channel3, GPIO.OUT)
+# GPIO.setup(channel4, GPIO.OUT)
+#
+#
+# pwm_channel1 = GPIO.PWM(channel1, 1000)
+# pwm_channel2 = GPIO.PWM(channel2, 1000)
+# pwm_channel3 = GPIO.PWM(channel3, 1000)
+# pwm_channel4 = GPIO.PWM(channel4, 1000)
+#
+# pwm_channel1.stop()
+# pwm_channel2.stop()
+# pwm_channel3.stop()
+# pwm_channel4.stop()
+#
+#
+# def pwm_controller(manage_list):
+#
+#     left, right = manage_list
+#     left = int(left * 100)
+#     right = int(right * 100)
+#     logger.info(f'left : {left}')
+#     logger.info(f'right : {right}')
+#
+#     if left >= 0 and right >= 0:
+#         pwm_channel1.start(abs(left))
+#         pwm_channel2.stop()
+#         pwm_channel3.start(abs(right))
+#         pwm_channel4.stop()
+#
+#         # time.sleep(1)
+#         # pwm.ChangeDutyCycle(80)
+#         # pwm.stop()  # Останавливаем ШИМ
+#
+#     elif left < 0 and right < 0:
+#
+#         pwm_channel1.stop()
+#         pwm_channel2.start(abs(left))
+#         pwm_channel3.stop()
+#         pwm_channel4.start(abs(right))
+#
+#     elif left >= 0 and right < 0:
+#
+#         pwm_channel1.start(abs(left))
+#         pwm_channel2.stop()
+#         pwm_channel3.stop()
+#         pwm_channel4.start(abs(right))
+#
+#     elif left < 0 and right >= 0:
+#
+#         pwm_channel1.stop()
+#         pwm_channel2.start(abs(left))
+#         pwm_channel3.start(abs(right))
+#         pwm_channel4.stop()
+#
+#     elif left == 0 and right == 0:
+#
+#         pwm_channel1.stop()
+#         pwm_channel2.stop()
+#         pwm_channel3.stop()
+#         pwm_channel4.stop()
 
 async def websocket_server (websocket, path):
     jsonCommand = await websocket.recv()
     output_list = json.loads(jsonCommand)
     logger.info(f'INPUT json: {output_list}')
-    pwm_controller (output_list)
+    #pwm_controller (output_list)
 
 
 if __name__ == '__main__':
